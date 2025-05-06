@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Task Manager - Final Interface</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f6f8;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+      width: 90%;
+      max-width: 500px;
+    }
+    h1 {
+      margin-bottom: 20px;
+      text-align: center;
+      color: #333;
+    }
+    #task-form {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    #task-input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #task-list {
+      list-style: none;
+      padding: 0;
+    }
+    #task-list li {
+      background-color: #f1f1f1;
+      padding: 12px 16px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .task-text {
+      flex: 1;
+    }
+    .task-actions button {
+      margin-left: 10px;
+      background-color: #dc3545;
+    }
+    .task-actions button.complete {
+      background-color: #28a745;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Task Manager</h1>
+    <form id="task-form">
+      <input type="text" id="task-input" placeholder="Enter new task..." required />
+      <button type="submit">Add Task</button>
+    </form>
+    <ul id="task-list"></ul>
+  </div>
+  <script>
+    const form = document.getElementById('task-form');
+    const input = document.getElementById('task-input');
+    const list = document.getElementById('task-list');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const taskText = input.value.trim();
+      if (taskText !== '') {
+        addTask(taskText);
+        input.value = '';
+      }
+    });
+
+    function addTask(text) {
+      const li = document.createElement('li');
+
+      const span = document.createElement('span');
+      span.className = 'task-text';
+      span.textContent = text;
+
+      const actions = document.createElement('div');
+      actions.className = 'task-actions';
+
+      const completeBtn = document.createElement('button');
+      completeBtn.className = 'complete';
+      completeBtn.textContent = '✓';
+      completeBtn.onclick = () => {
+        span.style.textDecoration = 'line-through';
+        completeBtn.disabled = true;
+      };
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.textContent = '✕';
+      deleteBtn.onclick = () => li.remove();
+
+      actions.appendChild(completeBtn);
+      actions.appendChild(deleteBtn);
+
+      li.appendChild(span);
+      li.appendChild(actions);
+      list.appendChild(li);
+    }
+  </script>
+</body>
+</html>
